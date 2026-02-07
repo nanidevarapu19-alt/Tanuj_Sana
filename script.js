@@ -381,7 +381,7 @@ if (bodyId === 'page-questions') {
                 'ishq-hai': 'images/Ishq Hai(KoshalWorld.Com).mp3',
                 'tenu-sang-rakhna': 'images/Tenu Sang Rakhna Jigra 128 Kbps.mp3',
                 'tere-vaaste': 'images/Tere Vaaste Zara Hatke Zara Bachke 128 Kbps.mp3',
-                'saiyaara': 'images/Title Track Saiyaara 128 Kbps.mp3'
+                'tum-ho-toh': 'images/Tum Ho Toh Saiyaara 128 Kbps.mp3'
             };
             var src = songMap[songChoice] || songMap['chinnadana'];
             var srcEl = bgMusic.querySelector('source');
