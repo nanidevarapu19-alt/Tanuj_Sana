@@ -380,8 +380,10 @@ if (bodyId === 'page-questions') {
                 'andhamaa': 'images/Andhamaa Andhamaa(KoshalWorld.Com).mp3',
                 'ishq-hai': 'images/Ishq Hai(KoshalWorld.Com).mp3',
                 'tenu-sang-rakhna': 'images/Tenu Sang Rakhna Jigra 128 Kbps.mp3',
+                'samayama' : 'images/Samayama.mp3',
                 'tere-vaaste': 'images/Tere Vaaste Zara Hatke Zara Bachke 128 Kbps.mp3',
-                'tum-ho-toh': 'images/Tum Ho Toh Saiyaara 128 Kbps.mp3'
+                'tum-ho-toh': 'images/Tum Ho Toh Saiyaara 128 Kbps.mp3',
+                'gaaju-bomma' : 'images/Gaaju Bomma.mp3'
             };
             var src = songMap[songChoice] || songMap['chinnadana'];
             var srcEl = bgMusic.querySelector('source');
@@ -502,6 +504,68 @@ if (bodyId === 'page-questions') {
                     kissUpload.value = '';
                 });
             }
+        })();
+
+        // Videos slot – only one video plays at a time; pause background music while video plays, resume when done
+        (function initVideoSection() {
+            var videosSlot = document.querySelector('.videos-slot');
+            var bgMusic = document.getElementById('bg-music');
+            var musicTimeBeforeVideo = 0;
+            var videoThatPausedMusic = null;
+
+            function pauseAllVideosExcept(playingVideo) {
+                if (!videosSlot) return;
+                var players = videosSlot.querySelectorAll('.videos-player');
+                for (var i = 0; i < players.length; i++) {
+                    if (players[i] !== playingVideo) players[i].pause();
+                }
+            }
+
+            function onVideoPlay(e) {
+                var video = e.target;
+                if (!video || !video.classList || !video.classList.contains('videos-player')) return;
+                pauseAllVideosExcept(video);
+                if (bgMusic && !bgMusic.paused) {
+                    musicTimeBeforeVideo = bgMusic.currentTime;
+                    bgMusic.pause();
+                    videoThatPausedMusic = video;
+                }
+            }
+
+            function onVideoPauseOrEnd(e) {
+                var video = e.target;
+                if (!video || video !== videoThatPausedMusic) return;
+                if (bgMusic) {
+                    bgMusic.currentTime = musicTimeBeforeVideo;
+                    bgMusic.play().catch(function() {});
+                }
+                videoThatPausedMusic = null;
+            }
+
+            if (videosSlot) {
+                videosSlot.addEventListener('play', onVideoPlay, true);
+                videosSlot.addEventListener('pause', onVideoPauseOrEnd, true);
+                videosSlot.addEventListener('ended', onVideoPauseOrEnd, true);
+            }
+
+            // Add more videos (upload)
+            var videoUpload = document.getElementById('video-upload');
+            if (!videoUpload || !videosSlot) return;
+            videoUpload.addEventListener('change', function(e) {
+                var files = e.target.files;
+                if (!files || files.length === 0) return;
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    if (!file.type.startsWith('video/')) continue;
+                    var url = URL.createObjectURL(file);
+                    var frame = document.createElement('div');
+                    frame.className = 'video-frame';
+                    frame.innerHTML = '<video class="videos-player" controls playsinline preload="metadata">' +
+                        '<source src="' + url + '" type="' + file.type + '">Your browser does not support the video tag.</video>';
+                    videosSlot.appendChild(frame);
+                }
+                videoUpload.value = '';
+            });
         })();
 
         // Countdown
