@@ -1546,8 +1546,14 @@ body.index-do-you-love {
     transition: 0.2s;
 }
 .index-do-you-love .gif-result {
+    width: 220px;
+    margin: 0 auto 0rem;
+    padding: 12px;
+    background: #fff;
     border-radius: 10px;
-    margin-bottom: 2rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    border-radius: 10px;
+    margin-bottom: 0rem;
 }
 .index-do-you-love .result-container h2 {
     font-size: 3.75rem;
@@ -1755,4 +1761,16 @@ body.index-do-you-love {
 }
 .page-main #ending p {
     font-size: 1.45em;
+}
+
+
+#days-count {
+    font-size: 1.3rem;
+    font-weight: 600;
+    animation: pop 0.6s ease-in-out;
+}
+
+@keyframes pop {
+    0% { transform: scale(0.9); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
 }

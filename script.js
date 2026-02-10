@@ -569,11 +569,62 @@ if (bodyId === 'page-questions') {
         })();
 
         // Countdown
-        var startDate = new Date('2025-07-01');
+        /*var startDate = new Date('2025-07-01');
         var today = new Date();
         var days = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
         var daysEl = document.getElementById('days-count');
-        if (daysEl) daysEl.textContent = "We've been in love for " + days + ' beautiful days ❤️';
+        if (daysEl) daysEl.textContent = "We've been in love for " + days + ' beautiful days ❤️';*/
+        var startDate = new Date('2025-07-01');
+        var today = new Date();
+        
+        // total days
+        var totalDays = Math.floor((today - startDate) / (1000 * 60 * 60 * 24));
+        
+        // months & days
+        var months =
+            (today.getFullYear() - startDate.getFullYear()) * 12 +
+            (today.getMonth() - startDate.getMonth());
+        
+        var days = today.getDate() - startDate.getDate();
+        
+        if (days < 0) {
+            months--;
+            var prevMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+            days += prevMonth.getDate();
+        }
+        
+        var daysEl = document.getElementById('days-count');
+        
+        function animateValue(el, mTarget, dTarget, tTarget, duration) {
+            let start = 0;
+            let startTime = null;
+        
+            function animate(timestamp) {
+                if (!startTime) startTime = timestamp;
+                let progress = Math.min((timestamp - startTime) / duration, 1);
+        
+                let m = Math.floor(progress * mTarget);
+                let d = Math.floor(progress * dTarget);
+                let t = Math.floor(progress * tTarget);
+        
+                el.textContent =
+                    "It's been " +
+                    m + " months " +
+                    d + " days — that is " +
+                    t + " days ❤️";
+        
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                }
+            }
+        
+            requestAnimationFrame(animate);
+        }
+        
+        if (daysEl) {
+            animateValue(daysEl, months, days, totalDays, 2000); // 2 sec animation
+        }
+        
 
         // Polaroid angles
         document.querySelectorAll('.polaroid').forEach(function(p) {
