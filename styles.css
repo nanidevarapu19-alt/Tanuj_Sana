@@ -1,4 +1,8 @@
 /* General Styles */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Dancing Script', cursive;
     margin: 0;
@@ -6,6 +10,8 @@ body {
     background: linear-gradient(135deg, #ffe6f0, #ffb3ba, #ffcccc);
     color: #333;
     overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
 }
 
 /* ========== Do You Love Page (index) ========== */
@@ -329,11 +335,21 @@ body {
 .main-content {
     position: relative;
     z-index: 2;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 h1, h2, h3 {
     font-family: 'Dancing Script', cursive;
     color: #d63384;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+img, video {
+    max-width: 100%;
+    height: auto;
 }
 
 p {
@@ -341,7 +357,7 @@ p {
     line-height: 1.6;
 }
 
-/* Landing Section */
+/* Landing Section – opaque so no hearts background shows here */
 #landing {
     height: 100vh;
     display: flex;
@@ -349,7 +365,7 @@ p {
     justify-content: center;
     align-items: center;
     text-align: center;
-    background: rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.98);
     animation: fadeIn 2s ease-in;
     padding: 20px 20px;
     box-sizing: border-box;
@@ -387,6 +403,7 @@ p {
     flex-wrap: wrap;
     justify-content: center;
     gap: 20px;
+    max-width: 100%;
 }
 
 .gallery-img {
@@ -413,7 +430,7 @@ p {
     position: relative;
     padding: 50px 20px;
     text-align: center;
-    background: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.55);
 }
 
 #beautiful-her h2 {
@@ -535,41 +552,253 @@ p {
     transform: scale(1.05);
 }
 
-/* Letter Section */
+/* Letter Section – envelope + open letter */
 #letter {
     padding: 50px 20px;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(251, 236, 238, 0.6);
     text-align: center;
 }
 
-.letter-container {
-    max-width: 1200px;
+.letter-section-title {
+    margin-bottom: 2rem;
+}
+
+.letter-wrapper {
+    max-width: 880px;
     margin: 0 auto;
-    padding: 2rem 2.25rem;
-    box-sizing: border-box;
-    background: rgba(255, 255, 255, 0.95);
-    border: 2px solid rgba(214, 51, 132, 0.4);
-    border-radius: 16px;
-    box-shadow:
-        0 4px 6px rgba(214, 51, 132, 0.08),
-        0 10px 25px rgba(214, 51, 132, 0.12),
-        0 20px 50px rgba(0, 0, 0, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.9);
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    position: relative;
 }
 
-.letter-container:hover {
-    box-shadow:
-        0 8px 16px rgba(214, 51, 132, 0.12),
-        0 20px 40px rgba(214, 51, 132, 0.15),
-        0 30px 60px rgba(0, 0, 0, 0.1),
-        inset 0 1px 0 rgba(255, 255, 255, 0.9);
+/* ----- Closed envelope ----- */
+.envelope-closed {
+    display: block;
 }
 
-.letter-text {
+.envelope-closed.is-hidden {
+    display: none;
+}
+
+.envelope-card {
+    position: relative;
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    min-height: 300px;
+    background: #FDF5F7;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(233, 72, 120, 0.2), 0 0 0 1px rgba(240, 216, 222, 0.5);
+    overflow: visible;
+}
+
+.envelope-flap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(180deg, #F0D8DE 0%, #F5E1E6 100%);
+    border-radius: 12px 12px 0 0;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 85%, 0 100%);
+    z-index: 1;
+}
+
+.envelope-open-btn {
+    position: absolute;
+    left: 50%;
+    top: 38%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    border: none;
+    background: #E94878;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(233, 72, 120, 0.45);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.envelope-open-btn:hover {
+    transform: translate(-50%, -50%) scale(1.08);
+    box-shadow: 0 8px 28px rgba(233, 72, 120, 0.5);
+}
+
+.envelope-heart-icon {
+    font-size: 2.4rem;
+    line-height: 1;
+}
+
+.envelope-open-text {
+    position: absolute;
+    left: 50%;
+    top: 58%;
+    transform: translateX(-50%);
+    z-index: 2;
     font-family: 'Dancing Script', cursive;
-    font-size: 1.5em;
-    color: #d63384;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #E94878;
+}
+
+.envelope-open-heart {
+    position: absolute;
+    left: 50%;
+    top: 72%;
+    transform: translateX(-50%);
+    z-index: 2;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: #E94878;
+    filter: drop-shadow(0 1px 2px rgba(233, 72, 120, 0.3));
+}
+
+/* ----- Opened letter (hidden by default) ----- */
+.letter-open {
+    display: none;
+    animation: letterReveal 0.5s ease-out;
+}
+
+.letter-open.is-visible {
+    display: block;
+}
+
+/* Container for opened letter + gif with shadow */
+.letter-open-container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    background: #FBECEE;
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(160, 62, 92, 0.2), 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+@keyframes letterReveal {
+    from {
+        opacity: 0;
+        transform: scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.letter-paper {
+    position: relative;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2.5rem 2.5rem 2rem;
+    background: #FDF8F9;
+    border: 1px solid #F0D8DE;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(233, 72, 120, 0.1);
+}
+
+.letter-corner-heart {
+    position: absolute;
+    font-size: 1.65rem;
+    line-height: 1;
+    color: #E94878;
+    filter: drop-shadow(0 1px 2px rgba(233, 72, 120, 0.25));
+}
+
+.letter-corner-tl { top: 14px;  left: 18px; }
+.letter-corner-tr { top: 14px;  right: 18px; }
+.letter-corner-bl { bottom: 14px; left: 18px; }
+.letter-corner-br { bottom: 14px; right: 18px; }
+
+.letter-center-heart {
+    display: block;
+    text-align: center;
+    font-size: 2.5rem;
+    line-height: 1;
+    color: #E94878;
+    margin-bottom: 0.5rem;
+    filter: drop-shadow(0 2px 4px rgba(233, 72, 120, 0.35));
+}
+
+.letter-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 2rem;
+    font-weight: 600;
+    color: #A03E5C;
+    text-align: center;
+    margin: 0 0 1.25rem 0;
+}
+
+.letter-body {
+    text-align: left;
+}
+
+.letter-open .letter-text {
+    font-family: 'Lora', serif;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: #59424C;
+    margin: 0;
+}
+
+.page-main .letter-open .letter-text {
+    font-size: 1.05rem;
+}
+
+.letter-type-cursor {
+    color: #E94878;
+    font-weight: 300;
+    animation: letterCursorBlink 0.9s step-end infinite;
+}
+
+@keyframes letterCursorBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Letter closing signature – right-aligned, "Forever yours," / "Yours Forever" + heart */
+.letter-signature {
+    margin-top: 2.5rem;
+    text-align: right;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.letter-signature.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.letter-signature-line1 {
+    display: block;
+    font-family: 'Lora', serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: #8B3A52;
+    margin-bottom: 0.35rem;
+    letter-spacing: 0.02em;
+}
+
+.letter-signature-line2 {
+    display: block;
+    font-family: 'Dancing Script', cursive;
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: #C41E5C;
+    margin-bottom: 0.4rem;
+}
+
+.letter-signature-heart {
+    display: inline-block;
+    color: #E94878;
+    font-size: 2rem;
+    line-height: 1;
+    margin-left: 0.25rem;
+    filter: drop-shadow(0 1px 2px rgba(233, 72, 120, 0.3));
 }
 
 .letter-after-gif {
@@ -613,7 +842,7 @@ p {
 #ours-lil-kidoo {
     padding: 50px 20px;
     text-align: center;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.55);
 }
 
 #ours-lil-kidoo h2 {
@@ -648,7 +877,7 @@ p {
     position: relative;
     padding: 50px 20px 140px;
     text-align: center;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.55);
 }
 
 .waist-frame-wrap {
@@ -755,7 +984,7 @@ p {
     50% { transform: scale(1.1); }
 }
 
-/* Container for hearts rising from bottom */
+/* Container for hearts rising from bottom – above content so they’re visible */
 .hearts-container {
     position: fixed;
     bottom: 0;
@@ -763,7 +992,7 @@ p {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 1;
+    z-index: 0;
     overflow: hidden;
 }
 
@@ -775,7 +1004,8 @@ p {
     color: #d63384;
     pointer-events: none;
     animation: riseUp linear forwards;
-    text-shadow: 0 0 8px rgba(214, 51, 132, 0.4);
+    text-shadow: 0 0 12px rgba(214, 51, 132, 0.6), 0 2px 4px rgba(0, 0, 0, 0.15);
+    filter: drop-shadow(0 0 6px rgba(233, 72, 120, 0.4));
 }
 
 .heart-float:nth-child(odd) {
@@ -784,11 +1014,11 @@ p {
 
 @keyframes riseUp {
     0% {
-        transform: translateY(0) scale(0.6);
-        opacity: 0.9;
+        transform: translateY(0) scale(0.7);
+        opacity: 1;
     }
     100% {
-        transform: translateY(-120vh) scale(1);
+        transform: translateY(-120vh) scale(1.1);
         opacity: 0;
     }
 }
@@ -903,6 +1133,101 @@ p {
     .film-frame img {
         height: 260px;
     }
+
+    /* Section padding – tablets */
+    #gallery, #letter, #polaroids, #cutest-moments, #videos, #secret, #countdown, #timeline, #ours-lil-kidoo, #ending,
+    #beautiful-her {
+        padding: 32px 16px;
+    }
+
+    /* Letter section – tablet */
+    #letter .letter-section-title {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+    }
+    .letter-wrapper {
+        max-width: 100%;
+        padding: 0 8px;
+    }
+    .envelope-card {
+        max-width: 100%;
+        min-height: 260px;
+    }
+    .envelope-open-btn {
+        width: 64px;
+        height: 64px;
+    }
+    .envelope-heart-icon { font-size: 2rem; }
+    .envelope-open-text { font-size: 1.4rem; }
+    .envelope-open-heart { font-size: 1.2rem; }
+    .letter-open-container {
+        max-width: 100%;
+        padding: 1rem;
+    }
+    .letter-paper {
+        padding: 1.5rem 1.25rem 1.25rem;
+    }
+    .letter-corner-heart { font-size: 1.35rem; }
+    .letter-corner-tl { top: 10px; left: 12px; }
+    .letter-corner-tr { top: 10px; right: 12px; }
+    .letter-corner-bl { bottom: 10px; left: 12px; }
+    .letter-corner-br { bottom: 10px; right: 12px; }
+    .letter-center-heart { font-size: 2rem; }
+    .letter-title { font-size: 1.65rem; }
+    .letter-open .letter-text { font-size: 0.95rem; }
+    .page-main .letter-open .letter-text { font-size: 1rem; }
+    .letter-signature-line1 { font-size: 1.1rem; }
+    .letter-signature-line2 { font-size: 2rem; }
+    .letter-signature-heart { font-size: 1.4rem; }
+    .letter-after-gif { max-width: 180px; }
+
+    /* Videos – tablet */
+    .videos-slot {
+        max-width: 100%;
+        gap: 12px;
+    }
+    .video-frame {
+        max-width: 160px;
+    }
+    .videos-player {
+        max-width: 148px;
+    }
+
+    /* Song select – tablet */
+    .song-select-wrap {
+        max-width: 100%;
+        padding: 0 1rem;
+    }
+    .song-select-wrap h1 { font-size: 2.2rem; }
+    .song-select-sub { font-size: 1.25rem; }
+    .song-cards {
+        gap: 1rem;
+        justify-content: center;
+    }
+    .song-card {
+        width: 160px;
+    }
+    .song-poster { height: 140px; }
+    .song-name { font-size: 0.9rem; }
+
+    /* Kisses gallery */
+    .kisses-gallery {
+        gap: 12px;
+    }
+    .kiss-frame {
+        width: 150px;
+    }
+
+    /* Music controls & ending */
+    .music-controls {
+        flex-wrap: wrap;
+        gap: 12px;
+        justify-content: center;
+    }
+    .ending-waist-pic {
+        max-width: 100%;
+        width: 300px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -995,6 +1320,77 @@ p {
     .film-strip-holes {
         width: 18px;
     }
+
+    /* Section padding – phones */
+    #gallery, #letter, #polaroids, #cutest-moments, #videos, #secret, #countdown, #timeline, #ours-lil-kidoo, #ending,
+    #beautiful-her {
+        padding: 24px 12px;
+    }
+
+    /* Letter section – phone */
+    #letter .letter-section-title {
+        font-size: 1.75rem;
+        margin-bottom: 1.25rem;
+    }
+    .letter-wrapper { padding: 0 4px; }
+    .envelope-card { min-height: 240px; }
+    .envelope-open-btn {
+        width: 56px;
+        height: 56px;
+    }
+    .envelope-heart-icon { font-size: 1.75rem; }
+    .envelope-open-text { font-size: 1.25rem; }
+    .envelope-open-heart { font-size: 1rem; }
+    .letter-open-container { padding: 0.75rem; }
+    .letter-paper {
+        padding: 1.25rem 1rem 1rem;
+    }
+    .letter-corner-heart { font-size: 1.15rem; }
+    .letter-corner-tl { top: 8px; left: 10px; }
+    .letter-corner-tr { top: 8px; right: 10px; }
+    .letter-corner-bl { bottom: 8px; left: 10px; }
+    .letter-corner-br { bottom: 8px; right: 10px; }
+    .letter-center-heart { font-size: 1.65rem; }
+    .letter-title { font-size: 1.45rem; }
+    .letter-open .letter-text { font-size: 0.9rem; line-height: 1.65; }
+    .page-main .letter-open .letter-text { font-size: 0.95rem; }
+    .letter-signature-line1 { font-size: 1rem; }
+    .letter-signature-line2 { font-size: 1.65rem; }
+    .letter-signature-heart { font-size: 1.25rem; }
+    .letter-after-gif { max-width: 160px; }
+
+    /* Videos – phone: 2 per row */
+    .videos-slot {
+        gap: 10px;
+    }
+    .video-frame {
+        max-width: calc(50% - 5px);
+        min-width: 0;
+        flex: 0 1 calc(50% - 5px);
+    }
+    .videos-player {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    /* Song select – phone */
+    .page-song-select { padding: 1rem; }
+    .song-select-wrap h1 { font-size: 1.85rem; }
+    .song-select-sub { font-size: 1.1rem; margin-bottom: 1.5rem; }
+    .song-cards { gap: 0.75rem; }
+    .song-card { width: 140px; }
+    .song-poster { height: 120px; }
+    .song-name { font-size: 0.85rem; padding: 0.5rem 0.25rem 0.75rem; }
+
+    /* Kisses – phone */
+    .kisses-gallery { gap: 10px; }
+    .kiss-frame { width: 130px; }
+
+    /* Ending & countdown */
+    #ending { padding: 24px 12px 100px; }
+    .ending-waist-pic { width: 280px; }
+    .countdown-dudu-bubu { max-width: 150px; }
+    #days-count { font-size: 1.35em; }
 }
 
 /* Extra small phones – keep text clear of stickers */
@@ -1031,6 +1427,31 @@ p {
         width: 54px;
         bottom: 8px;
     }
+
+    /* Extra small – sections & letter */
+    #gallery, #letter, #polaroids, #cutest-moments, #videos, #secret, #countdown, #timeline, #ours-lil-kidoo, #ending,
+    #beautiful-her {
+        padding: 20px 10px;
+    }
+    #letter .letter-section-title { font-size: 1.5rem; }
+    .envelope-card { min-height: 220px; }
+    .envelope-open-btn { width: 52px; height: 52px; }
+    .envelope-heart-icon { font-size: 1.5rem; }
+    .envelope-open-text { font-size: 1.1rem; }
+    .letter-paper { padding: 1rem 0.75rem 0.75rem; }
+    .letter-corner-heart { font-size: 1rem; }
+    .letter-center-heart { font-size: 1.4rem; }
+    .letter-title { font-size: 1.3rem; }
+    .letter-open .letter-text { font-size: 0.85rem; }
+    .letter-signature-line1 { font-size: 0.9rem; }
+    .letter-signature-line2 { font-size: 1.45rem; }
+    .letter-signature-heart { font-size: 1.1rem; }
+    .letter-after-gif { max-width: 140px; }
+    .song-card { width: 120px; }
+    .song-poster { height: 100px; }
+    .song-name { font-size: 0.8rem; }
+    .kiss-frame { width: 110px; }
+    .ending-waist-pic { width: 260px; }
 }
 
 /* Why I Love You */
@@ -1063,6 +1484,7 @@ p {
     justify-content: center;
     gap: 25px;
     flex-wrap: wrap;
+    max-width: 100%;
 }
 
 .polaroid {
@@ -1105,7 +1527,7 @@ p {
 #cutest-moments {
     padding: 50px 20px;
     text-align: center;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 230, 240, 0.9) 100%);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 230, 240, 0.55) 100%);
 }
 
 #cutest-moments h2 {
@@ -1117,6 +1539,7 @@ p {
     flex-wrap: wrap;
     justify-content: center;
     gap: 25px;
+    max-width: 100%;
 }
 
 /* Cutest Moments – larger frames so heads aren't cut off */
@@ -1134,7 +1557,7 @@ p {
 #videos {
     padding: 50px 20px;
     text-align: center;
-    background: linear-gradient(180deg, rgba(255, 230, 240, 0.9) 0%, rgba(255, 255, 255, 0.95) 100%);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, rgba(255, 230, 240, 0.55) 100%);
 }
 
 #videos h2 {
@@ -1155,6 +1578,7 @@ p {
     gap: 14px;
     max-width: 900px;
     margin: 0 auto;
+    width: 100%;
 }
 
 .video-frame {
@@ -1163,6 +1587,7 @@ p {
     border-radius: 8px;
     box-shadow: 0 4px 16px rgba(214, 51, 132, 0.2);
     max-width: 180px;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1277,7 +1702,7 @@ p {
 #secret {
     padding: 50px 20px;
     text-align: center;
-    background: rgba(255,255,255,0.9);
+    background: rgba(255, 255, 255, 0.55);
 }
 
 .secret-btn {

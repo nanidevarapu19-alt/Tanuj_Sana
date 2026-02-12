@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body id="page-questions" class="page-questions">
+    <audio id="dudu-song" src="images/dudu_song.mpeg" preload="auto" loop></audio>
     <div id="quiz-wrap" class="quiz-wrap">
         <h1 class="quiz-title">Quiz About Us 💖</h1>
         <p class="quiz-sub">Answer these to prove you know me!</p>
@@ -24,7 +25,7 @@
         <div id="quiz-result" class="quiz-result" style="display: none;">
             <h2 id="quiz-result-title"></h2>
             <p id="quiz-result-msg"></p>
-            <a href="hearts.html" class="btn-next">Continue 💕</a>
+            <a href="hearts.html" class="btn-next" onclick="stopDuduSong()">Continue 💕</a>
         </div>
     </div>
     <script src="script.js"></script>

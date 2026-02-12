@@ -19,6 +19,11 @@
             noBtn.style.top = newY + "px";
         });
         yesBtn.addEventListener("click", function() {
+            localStorage.setItem('playDuduSong', 'true');
+            var duduSong = document.getElementById('dudu-song');
+            if (duduSong) {
+                duduSong.play().catch(function() {});
+            }
             questionContainer.style.display = "none";
             if (heartLoader) heartLoader.style.display = "inherit";
             setTimeout(function() {
@@ -228,6 +233,16 @@ if (bodyId === 'page-questions') {
     var quizResultMsg = document.getElementById('quiz-result-msg');
     var quizWrap = document.getElementById('quiz-wrap');
 
+    // Check if dudu song should play
+    if (localStorage.getItem('playDuduSong') === 'true') {
+        var duduSong = document.getElementById('dudu-song');
+        if (duduSong) {
+            duduSong.addEventListener('canplay', function() {
+                duduSong.play().catch(function() {});
+            });
+        }
+    }
+
     function shuffleArray(arr) {
         var a = arr.slice();
         for (var i = a.length - 1; i > 0; i--) {
@@ -341,21 +356,38 @@ if (bodyId === 'page-questions') {
             body: formData
         }).catch(function () {});
     }*/
-    function showResult() {
-        quizContainer.style.display = 'none';
-        quizResult.style.display = 'block';
+        function showResult() {
+            quizContainer.style.display = 'none';
+            quizResult.style.display = 'block';
 
-        quizResultTitle.textContent =
-            'You got ' + score + ' / ' + quizData.length + '!';
+            quizResultTitle.textContent =
+                'You got ' + score + ' / ' + quizData.length + '!';
 
-        quizResultMsg.textContent =
-            score === quizData.length
-                ? 'Perfect score! You know us so well 💖'
-                : 'Still cute, still loved 💕';
-    }
+            quizResultMsg.textContent =
+                score === quizData.length
+                    ? 'Perfect score! You know us so well 💖'
+                    : 'Still cute, still loved 💕';
+
+            // Stop dudu song when quiz is completed
+            var duduSong = document.getElementById('dudu-song');
+            if (duduSong) {
+                duduSong.pause();
+                duduSong.currentTime = 0;
+            }
+            localStorage.removeItem('playDuduSong');
+        }
 
     if (quizQuestionEl && quizOptionsEl) {
         renderQuestion();
+    }
+}
+
+// Function to stop dudu song
+function stopDuduSong() {
+    var duduSong = document.getElementById('dudu-song');
+    if (duduSong) {
+        duduSong.pause();
+        duduSong.currentTime = 0;
     }
 }
 
@@ -380,10 +412,13 @@ if (bodyId === 'page-questions') {
                 'andhamaa': 'images/Andhamaa Andhamaa(KoshalWorld.Com).mp3',
                 'ishq-hai': 'images/Ishq Hai(KoshalWorld.Com).mp3',
                 'tenu-sang-rakhna': 'images/Tenu Sang Rakhna Jigra 128 Kbps.mp3',
-                'samayama' : 'images/Samayama.mp3',
+                'samayama': 'images/Samayama.mp3',
                 'tere-vaaste': 'images/Tere Vaaste Zara Hatke Zara Bachke 128 Kbps.mp3',
                 'tum-ho-toh': 'images/Tum Ho Toh Saiyaara 128 Kbps.mp3',
-                'gaaju-bomma' : 'images/Gaaju Bomma.mp3'
+                'gaaju-bomma': 'images/Gaaju Bomma.mp3',
+                'madhuram': 'images/Madhuram Madhuram-SenSongsMp3.Co.mp3',
+                'rambai': 'images/Rambai Neemeedha Naku.mp3',
+                'yemito': 'images/Yemito - SenSongsmp3.Co.mp3'
             };
             var src = songMap[songChoice] || songMap['chinnadana'];
             var srcEl = bgMusic.querySelector('source');
@@ -630,6 +665,56 @@ if (bodyId === 'page-questions') {
         document.querySelectorAll('.polaroid').forEach(function(p) {
             p.style.setProperty('--polaroid-angle', (Math.random() * 6 - 3) + 'deg');
         });
+
+        // Letter – open envelope to reveal letter, then type out text
+        var envelopeClosed = document.getElementById('envelope-closed');
+        var letterOpen = document.getElementById('letter-open');
+        var envelopeOpenBtn = document.getElementById('envelope-open-btn');
+        var letterTextEl = letterOpen ? letterOpen.querySelector('.letter-text') : null;
+
+        function escapeHtml(s) {
+            return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        function runTypingEffect() {
+            if (!letterTextEl) return;
+            var fullHtml = letterTextEl.innerHTML;
+            var fullText = fullHtml.replace(/<br\s*\/?>/gi, '\n').replace(/<[^>]+>/g, '');
+            var index = 0;
+            var html = '';
+
+            function typeChar() {
+                if (index >= fullText.length) {
+                    letterTextEl.innerHTML = html;
+                    var sig = document.getElementById('letter-signature');
+                    if (sig) {
+                        sig.classList.add('is-visible');
+                        sig.setAttribute('aria-hidden', 'false');
+                    }
+                    return;
+                }
+                var c = fullText.charAt(index);
+                index += 1;
+                if (c === '\n') {
+                    html += '<br>';
+                } else {
+                    html += escapeHtml(c);
+                }
+                letterTextEl.innerHTML = html + '<span class="letter-type-cursor" aria-hidden="true">|</span>';
+                setTimeout(typeChar, 26);
+            }
+            letterTextEl.innerHTML = '<span class="letter-type-cursor" aria-hidden="true">|</span>';
+            setTimeout(typeChar, 350);
+        }
+
+        if (envelopeOpenBtn && envelopeClosed && letterOpen) {
+            envelopeOpenBtn.addEventListener('click', function() {
+                envelopeClosed.classList.add('is-hidden');
+                letterOpen.classList.add('is-visible');
+                letterOpen.setAttribute('aria-hidden', 'false');
+                runTypingEffect();
+            });
+        }
     }
 
     // ---------- Heart canvas (hearts page): run when #heart exists ----------
