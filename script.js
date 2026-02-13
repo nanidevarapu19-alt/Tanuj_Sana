@@ -418,7 +418,8 @@ function stopDuduSong() {
                 'gaaju-bomma': 'images/Gaaju Bomma.mp3',
                 'madhuram': 'images/Madhuram Madhuram-SenSongsMp3.Co.mp3',
                 'rambai': 'images/Rambai Neemeedha Naku.mp3',
-                'yemito': 'images/Yemito - SenSongsmp3.Co.mp3'
+                'yemito': 'images/Yemito - SenSongsmp3.Co.mp3',
+                'gehra': 'images/Gehra Hua (PenduJatt.Com.Se).mp3'
             };
             var src = songMap[songChoice] || songMap['chinnadana'];
             var srcEl = bgMusic.querySelector('source');
